@@ -12,15 +12,14 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));  // Cloudinary settings
             services.AddScoped<ITokenService, TokenService>();
-            // Repository
-            services.AddScoped<IUserRepository, UserRepository>();
-            // Automapper
-            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-            // Connection string
+            services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<IUserRepository, UserRepository>(); // Repository
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);  // Automapper
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                options.UseSqlite(config.GetConnectionString("DefaultConnection")); // Connection string
             });
 
             return services;
