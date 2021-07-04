@@ -36,9 +36,8 @@ namespace API.Entities
 
         public ICollection<Photo> Photos { get; set; }
 
-        //    public int GetAge()
-        //    {
-        //        return DateOfBirth.CalculateAge();  // when we get the data so passwordHash and salt also get so that why hide his and calculate the age in AutoMapperProfiles
-        //    }
+        public ICollection<UserLike> LikedByUsers { get; set; }
+
+        public ICollection<UserLike> LikedUsers { get; set; }
     }
 }
