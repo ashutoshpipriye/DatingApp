@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-register',
@@ -10,10 +10,7 @@ import { AccountService } from '../_services/account.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
-  // @Input() usersFromHomeComponent: any;
   @Output() cancelRegister = new EventEmitter();
-  // model: any = {};
   registerForm: FormGroup;
   maxDate: Date;
   validationErrors: string[] = [];
@@ -22,12 +19,12 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
-    this.initilizeForm();
+    this.intitializeForm();
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }
 
-  initilizeForm() {
+  intitializeForm() {
     this.registerForm = this.fb.group({
       gender: ['male'],
       username: ['', Validators.required],
@@ -35,15 +32,12 @@ export class RegisterComponent implements OnInit {
       dateOfBirth: ['', Validators.required],
       city: ['', Validators.required],
       country: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      password: ['', [Validators.required,
+      Validators.minLength(4), Validators.maxLength(8)]],
       confirmPassword: ['', [Validators.required, this.matchValues('password')]]
-    })
-    this.registerForm.controls.password.valueChanges.subscribe(() => {
-      this.registerForm.controls.confirmPassword.updateValueAndValidity();
     })
   }
 
-  // custom validaotor
   matchValues(matchTo: string): ValidatorFn {
     return (control: AbstractControl) => {
       return control?.value === control?.parent?.controls[matchTo].value
@@ -52,14 +46,9 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    // console.log(this.registerForm.value);
     this.accountService.register(this.registerForm.value).subscribe(response => {
-      // console.log(response);
-      // this.cancel();
       this.router.navigateByUrl('/members');
     }, error => {
-      // console.log(error);
-      // this.toastr.error(error.error);
       this.validationErrors = error;
     })
   }

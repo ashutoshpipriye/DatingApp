@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210706085503_GroupsAdded")]
+    [Migration("20210706154928_GroupsAdded")]
     partial class GroupsAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
