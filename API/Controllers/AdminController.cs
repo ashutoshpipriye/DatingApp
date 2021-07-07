@@ -16,7 +16,6 @@ namespace API.Controllers
             _userManager = userManager;
         }
 
-        // get roles of the user
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("users-with-roles")]
         public async Task<ActionResult> GetUsersWithRoles()
@@ -34,11 +33,9 @@ namespace API.Controllers
                 .ToListAsync();
 
             return Ok(users);
-            // return Ok("Only admins can see this");
         }
 
-        // edit the role of the user
-        // [Authorize(Policy = "RequireAdminRole")]
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("edit-roles/{username}")]
         public async Task<ActionResult> EditRoles(string username, [FromQuery] string roles)
         {
